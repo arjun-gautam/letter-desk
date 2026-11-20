@@ -3,6 +3,7 @@ import { load, save } from './store.js'
 import { fieldsOf, uid, starter } from './blocks.js'
 import { render, download } from './export.js'
 import Editor, { Preview } from './Editor.jsx'
+import HowItWorks from './HowItWorks.jsx'
 
 const AUTO = ['ref_no', 'date']
 const DAY = 864e5
@@ -88,7 +89,7 @@ export default function App() {
 
   const setSetting = (k, v) => update({ ...db, settings: { ...db.settings, [k]: v } })
   const shown = db.letters.filter((l) => (l.ref + l.templateName + Object.values(l.values).join(' ')).toLowerCase().includes(q.toLowerCase()))
-  const tabs = [['new', 'New letter'], ['register', `Register (${db.letters.length})`], ['templates', 'Templates'], ['settings', 'Settings & backup']]
+  const tabs = [['new', 'New letter'], ['register', `Register (${db.letters.length})`], ['templates', 'Templates'], ['settings', 'Settings & backup'], ['how', 'How it works']]
 
   return (
     <div className={'app' + (tab === 'new' && draft ? ' wide' : '')}>
@@ -210,6 +211,11 @@ export default function App() {
             <label className="file">Restore from backup<input type="file" accept=".json" onChange={importBackup} /></label>
           </div>
           {db.lastBackup && <p className="muted">Last backup: {new Date(db.lastBackup).toLocaleString()}</p>}
+        </section>
+      )}
+      {tab === 'how' && (
+        <section>
+          <HowItWorks />
         </section>
       )}
     </div>
